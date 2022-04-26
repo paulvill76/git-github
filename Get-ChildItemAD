@@ -1,0 +1,44 @@
+Get-ChildItemAD
+ 
+<#
+ 
+#DeepDive.ps1
+ 
+.DESCRIPTION
+------------------------
+This script uses WMI & WinRM to obtain information about a list of computers.
+Collects the following information:
+01. Operating System (Q9.1)
+02. System Information
+03. System & Application log
+04. Drivers
+05. IP Configuration
+06. IP Routes
+07. Windows Updates installed (Q8.2)
+08. Services
+09. Programs installed (Q 8.3)
+10. Check if SMB v1/2/3 enabled (Q3.4)
+11. Samba Shares
+12. Windows Features Installed
+13. Check IIS version and if it's supported
+14. Certificates binding to IIS & expiration
+15. Check whether NLB cluster is installed
+16. SSL v2/v3 Server check (Q3.5)
+17. Scheduled Tasks
+18. Power plan active (Q13.2)
+19. Group policy result (Q10.0)
+20. Uptime
+21. Time: Verify Windows Time service is synced to PDC (Q13.3)
+22. Local administrator password last time set
+23. Antivirus (Symantec) installed? (Q3.7)
+24. Antivirus (TrendMicro) installed? (Q3.7)
+25. Antivirus (Sophos) installed? (Q3.7)
+26. EDR (Endpoint detection and response) Carbon black (Q3.8)
+27. EDR (Endpoint detection and response) Cortex (Q3.8)
+28. [TBD] SSL keys length check
+    Certutil -dstemplate | findstr "[ msPKI-Minimal-Key-Size"| findstr /v "1024 2048 4096"
+        https://www.sysadmins.lv/retired-msft-blogs/pki/rsa-keys-under-1024-bits-are-blocked.aspx
+ 
+99. Compress the logs
+ 
+#>

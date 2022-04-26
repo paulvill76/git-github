@@ -4,6 +4,20 @@ Get-ChildItemAD
  
 #DeepDive.ps1
  
+Group 	URL	Remarks
+Best practices	
+https://github.ibm.com/GTS-Cyber-Security/Data-Gathering/tree/master/Windows-Server-Health-Check	Windows Server Health Check script
+Security and Compliance	https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/interactive-logon-number-of-previous-logons-to-cache-in-case-domain-controller-is-not-available	Number of previous logons to cache
+Security and Compliance	https://www.microsoft.com/en-us/download/details.aspx?id=46899	Local Administrator Password Solution (LAPS)
+Security and Compliance	https://adamtheautomator.com/microsoft-laps/	Local Administrator Password Solution (LAPS) implementation
+SW Currency	https://github.ibm.com/Continuous-Engineering/TWPs/tree/master/Features/Ansible-ILMT-CIT%20(AIC)	Ansible-ILMT-CIT (AIC) inventory solution
+Security and Compliance	https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858	Stop using SMB1
+Security and Compliance	https://docs.microsoft.com/en-us/archive/blogs/ralphkyttle/smb1-audit-active-usage-using-message-analyzer	SMB1 - Audit Active Usage using Message Analyzer
+Security and Compliance	https://docs.microsoft.com/en-us/windows-server/security/tls/tls-registry-settings	TLS/SSL Settings
+Log Management	https://w3.ibm.com/services/lighthouse/documents/101473	WinLogMgr
+		
+
+
 .DESCRIPTION
 ------------------------
 This script uses WMI & WinRM to obtain information about a list of computers.
@@ -39,6 +53,84 @@ Collects the following information:
     Certutil -dstemplate | findstr "[ msPKI-Minimal-Key-Size"| findstr /v "1024 2048 4096"
         https://www.sysadmins.lv/retired-msft-blogs/pki/rsa-keys-under-1024-bits-are-blocked.aspx
  
-99. Compress the logs
  
+ARCHITECTURE	
+1.0	SW Currency	Inventory is done using what CMDB (SESDR, Notes DB, XLS, etc)?
+1.1	SW Currency	Inventory is up-to-date? How is updated?
+1.2	Documentation	Architecture plan exists? How is updated?
+DOCUMENTATION	
+2.0	Documentation	Is there any common document repository?
+2.1	Documentation	"Is there any tool being used to manage the documentation (if yes, please confirm the name e.g. Box, Sharepoint, etc)
+2.2	Documentation	Are all the Windows activities documented in form of Runbooks (SOP), Checklists,  Work Instructions and Activity Flows?
+2.3	Documentation	Are approved templates being used to create the documents ?
+SECURITY HEALTH CHECK (DEVICE HARDENING)	
+3.0	Security and Compliance	How is it implemented security health check? Ansible, TSCM, etc?
+3.1	Security and Compliance	Are local admin accounts properly protected (e.g. renaming, LAPS)?
+3.2	Security and Compliance	What security standards (CSD, PCI-DSS, HIPAA, etc) or recognized best practices (CIS, etc) are followed?
+3.3	Security and Compliance	"Are system event logs being backed up (e.g. WinLogMgr, alternatively nxlog)?
+Important thing here is to document security, system and application logs are kept without any possible loss of events for a duration of the log retention defined in CSD"
+3.4	Security and Compliance	Is SMB version 1 still used?
+3.5	Security and Compliance	Is SSL 2.0, SSL 3.0, TLS 1.0, TLS 1.1, TLS 1.2, TLS 1.3 Server used?
+3.6	Security and Compliance	Local administrators password last time set?
+3.7	Security and Compliance	Antivirus installed (e.g. Symantec/TrendMicro/Sophos) installed?
+3.8	Security and Compliance	Is EDR (Endpoint detection and response) installed (e.g. Carbon black, Cortex, Crowdstrike)?
+3.9	Security and Compliance	What is the number of previous logons to cache?
+MONITORING	
+4.0	Monitoring and Event	Is there any standard monitoring tool implemented (if yes, please provide details)?
+4.1	Monitoring and Event	Is there any alert generating and alerting mechanism for critical errors?
+4.2	Monitoring and Event	Is client network availability being monitored (client infrastructure)?
+4.3	Monitoring and Event	Is performance monitoring being done  (if yes, please provide parameter & threshold for the same)?
+4.4	Monitoring and Event	Is security logs monitoring (system that can analyze & issue alerts e.g. QRadar) being done?
+4.5	Best practices 	Are all services with "StartType"="Automatic" in "Running" state?
+BACKUP	
+5.0	Backup and Restore	Is there any standard backup tool being used?
+5.1	Backup and Restore	Is OS backup being taken regularly? What is the backup policy (e.g. full backup Friday, daily differential, etc.)?
+5.2	Backup and Restore	"Is it generated a backup report? How often? Is it checked?"
+5.3	Backup and Restore	Is a process in place to remediate failed backup?
+HIGH AVAILABILITY	
+6.0	High availability	Are used Microsoft Cluster Services?
+6.1	High availability	If physical servers are used, is used multipathing & NIC teaming?
+DISASTER RECOVERY	
+7.0	Disaster recovery	Is there any DR setup in place (If yes, please provide the details)
+7.1	Disaster recovery	Is DR drill being performed (If yes, please provide frequency)
+7.3	Disaster recovery	Is DR drill schedule and audit report available
+PATCH MANAGEMENT	
+8.0	Patching	What tools is used for patch management (WSUS, SCCM, PatchLink - Ivanti, etc)
+8.1	Patching	What is the patching process?
+8.2	Patching	Are Windows servers regularly updated?
+8.3	Patching	Is software installed updated to latest version regularly?
+LICENSE MANAGEMENT	
+9.0	SW Currency	"What tool is used for license management (e.g. TLM, Ansible-ILMT-CIT)? Who is responsible/owner for the licensing (IBM/customer)?
+e.g. How do you account software licenses (including Windows operating system)?"
+9.1	SW Currency	Is the operating system under Microsoft support?
+LOG MANAGEMENT	
+10.0	Best practices 	"What is the local policy for log management (System, Security, Application)?
+- What is Maximum log size?
+- Overwrite events as needed (oldest first)
+- Archive the log when full, do not overwrite events
+- Do not overwrite events (recommended by IBM Windows tech specs)"
+LOG MANAGEMENT	
+10.1	Automation	Is there a process to periodically cleanup old logs (e.g. WinLogMgr)?
+10.2	Automation	Do you have a centralized log system (Syslog)?
+PROCESS MANAGEMENT	
+11.0	Best practices 	Is Incident analysis done on regular basis and action plan is created to improve the monitoring, reduce the false alarm and reduce the volume of alerts?
+11.1	Best practices 	Is incident analysis data maintained at the central location and discussed with the team members and customer?
+11.2	Best practices 	Are Incident tickets audited on regular basis to improve the logging quality and to meet the effective resolution?
+PROCESS MANAGEMENT	11.3	Best practices 	"Is change management best practices/standards followed to meet the compliance e.g all the change records created with proper test plan, implementation and backout plan?
+Are all the technical commands and steps are well mentioned?
+"
+PROCESS MANAGEMENT	11.4	Best practices 	Is the change control maintained to see historical changes in any configuration item/device?
+PROCESS MANAGEMENT	11.5	Best practices 	Are all the logs/checklists attached with change when closed
+PERFORMANCE MANAGEMENT	13.1	Capacity Management	Do you have historical performance information based on CPU, memory, disk, paging, network (e.g. SRM)?
+PERFORMANCE MANAGEMENT	13.2	Best practices 	How is power plan configured on Windows Servers (Balanced/High performance, etc.)?
+PERFORMANCE MANAGEMENT	13.3	Best practices 	Is Windows Time service configured to point to PDC?
+Connectivity Management	14.0	Documentation	"Is there any common document repository (how to connect to client's servers)?
+Is there a documented process in case of connectivity issue from IBM to the customer?"
+Connectivity Management	14.1	Support and operating model	Do you use AT&T/GSNI/WAN/Other IBM owned connectivity?
+Connectivity Management	14.2	Support and operating model	Who is responsible for the connectivity to customer - owns SLA (client/GSNI/AT&T)?
+Hosted Load-Balanced Services	15.0	Best practices 	"Do you use NLB (Network Load Balancer)?
+Is there a documentation for configuration, setup and troubleshooting?"
+Additional Findings	A.1	Other	Specify a question to the additional finding which was made 
+
+
 #>
